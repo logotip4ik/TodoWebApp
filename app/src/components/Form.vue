@@ -15,6 +15,15 @@
         </b-form-input>
       </b-form-group>
       <b-form-group>
+        <label for="datepicker" class="h5">
+          Choose expiration date
+        </label>
+        <b-form-datepicker
+          id="datepicker"
+          v-model="date">
+        </b-form-datepicker>
+      </b-form-group>
+      <b-form-group>
         <b-form-radio-group v-model="badge">
           <b-form-radio :value="null" size="lg">
             No Badge
@@ -48,21 +57,32 @@ export default {
   setup() {
     const todo = ref('');
     const badge = ref(null);
+    const date = ref('');
     const { createTodo } = useActions('todos', [
       'createTodo',
     ]);
 
     const addNewTodo = () => {
-      createTodo({
-        title: todo.value.trim(),
-        badge: badge.value,
-      });
+      if (date.value !== '') {
+        createTodo({
+          title: todo.value.trim(),
+          badge: badge.value,
+          exDate: date.value,
+        });
+      } else {
+        createTodo({
+          title: todo.value.trim(),
+          badge: badge.value,
+        });
+      }
       todo.value = '';
+      date.value = '';
       badge.value = null;
     };
 
     const resetForm = () => {
       todo.value = '';
+      date.value = '';
       badge.value = null;
     };
 
@@ -71,6 +91,7 @@ export default {
       resetForm,
       todo,
       badge,
+      date,
     };
   },
 };

@@ -5,18 +5,18 @@
 module.exports = (options = {}) => {
   return async context => {
     if (context.data.hasOwnProperty('title')) {
-      const user_id = context.params.user.github_id;
       const data = {
         title: context.data.title,
         completed: false,
-        user_id: user_id,
+        user_id: context.params.user.github_id,
         createdAt: new Date(),
         badge: context.data.badge,
+        exDate: new Date(context.data.exDate),
       };
       context.data = data;
       return context;
     } else {
-      throw new Error('todo must have at least title');
+      throw new Error('todo must have at least a title');
     }
   };
 };
