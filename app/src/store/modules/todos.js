@@ -69,10 +69,7 @@ export default {
 
         // But this do
         // eslint-disable-next-line
-        state.todos = state.todos.filter((item) => {
-          // eslint-disable-next-line
-          return removedTodo._id !== item._id;
-        });
+        state.todos = state.todos.filter((item) => removedTodo._id !== item._id);
       });
     },
   },

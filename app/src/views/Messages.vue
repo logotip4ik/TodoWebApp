@@ -19,8 +19,9 @@
       label="Loading..."
       style="width: 3rem; height: 3rem;"
       class="spinner_"/>
+    <NoneState v-if="!loading && ( todos === null || todos.length === 0)"/>
     <b-button v-b-toggle.formCollaps pill variant="info" class="addTodo">
-      <p class="h4 mb-1 mt-1"><b-icon-plus-circle /></p>
+      <p class="h4 my-1"><b-icon-plus-circle /></p>
     </b-button>
   </div>
 </template>
@@ -32,6 +33,7 @@ import { useState, useActions, useRouter } from '@u3u/vue-hooks';
 import Navbar from '../components/Navbar.vue';
 import Form from '../components/Form.vue';
 import Todo from '../components/Todo.vue';
+import NoneState from '../components/NoneState.vue';
 
 export default {
   name: 'Messages',
@@ -39,6 +41,7 @@ export default {
     Navbar,
     Todo,
     Form,
+    NoneState,
   },
   setup() {
     const { router } = useRouter();

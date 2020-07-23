@@ -16,13 +16,25 @@
       </b-form-group>
       <b-form-group>
         <label for="datepicker" class="h5">
-          Choose expiration date
+          Choose notification date
         </label>
         <b-form-datepicker
           id="datepicker"
-          v-model="date">
+          v-model="date"
+          :min="minDate">
         </b-form-datepicker>
       </b-form-group>
+      <transition>
+        <b-form-group v-if="date !== ''">
+          <label for="timepicker" class="h5">
+            Choose notification time
+          </label>
+          <b-form-timepicker
+            id="timepicker"
+            v-model="time">
+          </b-form-timepicker>
+        </b-form-group>
+      </transition>
       <b-form-group>
         <b-form-radio-group v-model="badge">
           <b-form-radio :value="null" size="lg">
@@ -51,6 +63,9 @@
 <script>
 import { useActions } from '@u3u/vue-hooks';
 import { ref } from '@vue/composition-api';
+// import Push from 'push.js';
+
+// TODO: add some features with this: 'Notification.permission === "denied"'
 
 export default {
   name: 'Form',
@@ -58,6 +73,9 @@ export default {
     const todo = ref('');
     const badge = ref(null);
     const date = ref('');
+    const time = ref('');
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const { createTodo } = useActions('todos', [
       'createTodo',
     ]);
@@ -67,7 +85,7 @@ export default {
         createTodo({
           title: todo.value.trim(),
           badge: badge.value,
-          exDate: date.value,
+          pushDate: `${date.value} ${time.value}`,
         });
       } else {
         createTodo({
@@ -86,12 +104,16 @@ export default {
       badge.value = null;
     };
 
+    const minDate = new Date(today);
+
     return {
       addNewTodo,
       resetForm,
       todo,
+      time,
       badge,
       date,
+      minDate,
     };
   },
 };

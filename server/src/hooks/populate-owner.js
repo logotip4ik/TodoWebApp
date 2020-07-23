@@ -11,7 +11,7 @@ module.exports = (options = {}) => {
         user_id: context.params.user.github_id,
         createdAt: new Date(),
         badge: context.data.badge,
-        exDate: new Date(context.data.exDate),
+        pushDate: new Date(context.data.pushDate),
       };
       context.data = data;
       return context;
