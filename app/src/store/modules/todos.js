@@ -1,3 +1,4 @@
+import Push from 'push.js';
 import feathers from '../../feathers';
 
 export default {
@@ -71,6 +72,22 @@ export default {
         // eslint-disable-next-line
         state.todos = state.todos.filter((item) => removedTodo._id !== item._id);
       });
+    },
+    async notify({ state }, index) {
+      console.log(state);
+      (function loop() {
+        let now = new Date();
+        const pushDate = new Date(state.todos[index].pushDate);
+        if (now.getDate() === pushDate.getDate()
+          && now.getHours() === pushDate.getHours()
+          && now.getMinutes() === pushDate.getMinutes()) {
+          // TODO: at click update Todo
+          Push.create(state.todos[index].title);
+        }
+        now = new Date(); // allow for time passing
+        const delay = 60000 - (now % 60000); // exact ms to next minute interval
+        setTimeout(loop, delay);
+      }());
     },
   },
 };

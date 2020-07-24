@@ -1,6 +1,6 @@
 <template>
   <transition name="fade" mode="out-in" appear>
-    <div class="d-flex flex-column justify-content-center align-items-center noneState">
+    <div class="d-flex flex-column justify-content-center align-items-center noneState mx-4">
       <b-icon-check2
         class="checked"
         style="width: 150px; height: 150px"/>

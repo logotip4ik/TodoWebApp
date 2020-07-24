@@ -28,20 +28,39 @@
         variant="danger"
         class="badgeForTodo">
         Critical</b-badge>
+      <b-icon-gear
+        @click="settingsTodo"
+        class="settings"/>
     </b-card>
   </div>
 </template>
 
 <script>
+import { useActions } from '@u3u/vue-hooks';
+
 export default {
   name: 'Todo',
-  props: ['todo'],
+  props: ['todo', 'index'],
+  created() {
+    const { notify } = useActions('todos', [
+      'notify',
+    ]);
+
+    notify(this.index);
+
+    return {
+      notify,
+    };
+  },
   methods: {
     removeTodo() {
       this.$emit('removeTodo');
     },
     updateTodo() {
       this.$emit('updateTodo');
+    },
+    settingsTodo() {
+      this.$emit('settingsTodo');
     },
   },
 };
@@ -58,5 +77,11 @@ export default {
   position: absolute;
   top: -10%;
   right: -2%;
+}
+.settings{
+  cursor: pointer;
+  position: absolute;
+  top: 5%;
+  left: 0.5%;
 }
 </style>
