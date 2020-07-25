@@ -77,10 +77,10 @@ export default {
       (function loop() {
         let now = new Date();
         const pushDate = new Date(state.todos[index].pushDate);
-        if (now.getDate() >= pushDate.getDate()
+        if (!state.todos[index].completed
+          && now.getDate() >= pushDate.getDate()
           && now.getHours() >= pushDate.getHours()
-          && now.getMinutes() >= pushDate.getMinutes()
-          && !state.todos[index].completed) {
+          && now.getMinutes() >= pushDate.getMinutes()) {
           Push.create(state.todos[index].title, {
             body: 'Click to complete this todo.',
             // eslint-disable-next-line

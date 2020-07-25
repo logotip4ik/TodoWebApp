@@ -46,7 +46,7 @@ export default {
       'notify',
     ]);
 
-    if (!this.todo.completed) notify(this.index);
+    if (!this.todo.completed || this.todo.pushDate == null) notify(this.index);
 
     return {
       notify,

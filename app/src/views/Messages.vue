@@ -5,25 +5,32 @@
         <b-collapse id="formCollaps">
           <Form />
         </b-collapse>
-        <Todo
-          v-for="(todo, index) in todos"
-          :key="todo.id"
-          :todo="todo"
-          :index="index"
-          :class="todo.completed ? 'line-through': ''"
-          @updateTodo="UpdateExTodo(index)"
-          @removeTodo="RemoveExTodo(index)"
-          @settingsTodo="settingsExTodo(index)"/>
-      <!-- TODO: add state for setting the todo, probably (editing, currentlyEditing) -->
-        <SettingsTodo v-if="false" />
+        <transition-group
+          name="list">
+          <Todo
+            v-for="(todo, index) in todos"
+            v-bind:key="todo._id"
+            :todo="todo"
+            :index="index"
+            :class="todo.completed ? 'line-through': ''"
+            @updateTodo="UpdateExTodo(index)"
+            @removeTodo="RemoveExTodo(index)"
+            @settingsTodo="settingsExTodo(index)"/>
+        <!-- TODO: add state for setting the todo, probably (editing, currentlyEditing) -->
+          <SettingsTodo v-if="false" />
+        </transition-group>
       </div>
-    <b-spinner
-      v-if="loading"
-      variant="info"
-      label="Loading..."
-      style="width: 3rem; height: 3rem;"
-      class="spinner_"/>
-    <NoneState v-if="!loading && (todos === null || todos.length === 0)"/>
+    <transition name="fade">
+      <b-spinner
+        v-if="loading"
+        variant="info"
+        label="Loading..."
+        style="width: 3rem; height: 3rem;"
+        class="spinner_"/>
+    </transition>
+    <transition name="fade">
+      <NoneState v-if="!loading && (todos === null || todos.length === 0)"/>
+    </transition>
     <b-button v-b-toggle.formCollaps pill variant="info" class="addTodo">
       <p class="h4 my-1"><b-icon-plus-circle /></p>
     </b-button>
@@ -122,9 +129,21 @@ export default {
   right: 1rem;
 }
 .spinner_{
-  transition: 1s;
   position: fixed;
   top: 50%;
   left:50%;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to{
+  opacity: 0;
+}
+.list-enter-active, .list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to{
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>

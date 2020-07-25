@@ -14,7 +14,8 @@
           placeholder="Add new Todo...">
         </b-form-input>
       </b-form-group>
-      <b-form-group>
+      <b-form-group
+        description="You can live date and time empty">
         <label for="datepicker" class="h5">
           Choose notification date
         </label>
@@ -24,7 +25,7 @@
           :min="minDate">
         </b-form-datepicker>
       </b-form-group>
-      <transition>
+      <transition name="fade">
         <b-form-group v-if="date !== ''">
           <label for="timepicker" class="h5">
             Choose notification time
@@ -120,4 +121,10 @@ export default {
 </script>
 
 <style lang="scss">
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .4s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>
