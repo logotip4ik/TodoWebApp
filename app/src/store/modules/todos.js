@@ -74,15 +74,32 @@ export default {
       });
     },
     async notify({ state }, index) {
-      console.log(state);
       (function loop() {
         let now = new Date();
         const pushDate = new Date(state.todos[index].pushDate);
-        if (now.getDate() === pushDate.getDate()
-          && now.getHours() === pushDate.getHours()
-          && now.getMinutes() === pushDate.getMinutes()) {
-          // TODO: at click update Todo
-          Push.create(state.todos[index].title);
+        if (now.getDate() >= pushDate.getDate()
+          && now.getHours() >= pushDate.getHours()
+          && now.getMinutes() >= pushDate.getMinutes()
+          && !state.todos[index].completed) {
+          Push.create(state.todos[index].title, {
+            body: 'Click to complete this todo.',
+            // eslint-disable-next-line
+            onClick: async () => {
+              await feathers.service('todo')
+              // eslint-disable-next-line
+              .patch(state.todos[index]._id, {
+                  completed: !state.todos[index].completed,
+                })
+                .then((res) => {
+                // eslint-disable-next-line
+                console.info('Object was updated: ', JSON.stringify(res));
+                })
+                .catch((err) => {
+                // eslint-disable-next-line
+                console.error(JSON.stringify(err));
+                });
+            },
+          });
         }
         now = new Date(); // allow for time passing
         const delay = 60000 - (now % 60000); // exact ms to next minute interval

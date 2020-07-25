@@ -46,7 +46,7 @@ export default {
       'notify',
     ]);
 
-    notify(this.index);
+    if (!this.todo.completed) notify(this.index);
 
     return {
       notify,
