@@ -76,11 +76,14 @@ export default {
     async notify({ state }, index) {
       (function loop() {
         let now = new Date();
-        const pushDate = new Date(state.todos[index].pushDate);
+        const pushdate = state.todos[index] || null;
+        if (pushdate == null) return;
+        const date = new Date(pushdate.pushDate);
         if (!state.todos[index].completed
-          && now.getDate() >= pushDate.getDate()
-          && now.getHours() >= pushDate.getHours()
-          && now.getMinutes() >= pushDate.getMinutes()) {
+          && now.getDate() >= date.getDate()
+          && now.getHours() >= date.getHours()
+          && now.getMinutes() >= date.getMinutes()
+          && Push.Permission.has()) {
           Push.create(state.todos[index].title, {
             body: 'Click to complete this todo.',
             // eslint-disable-next-line
@@ -88,7 +91,7 @@ export default {
               await feathers.service('todo')
               // eslint-disable-next-line
               .patch(state.todos[index]._id, {
-                  completed: !state.todos[index].completed,
+                  completed: true,
                 })
                 .then((res) => {
                 // eslint-disable-next-line

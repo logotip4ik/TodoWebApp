@@ -47,6 +47,8 @@ import Todo from '../components/Todo.vue';
 import SettingsTodo from '../components/SettingsTodo.vue';
 import NoneState from '../components/NoneState.vue';
 
+// TODO: add some features with this: 'Push.Permission.DENIED === "denied"'
+
 export default {
   name: 'Messages',
   components: {
@@ -77,6 +79,14 @@ export default {
       'updateTodo',
       'removeTodo',
     ]);
+
+    const { askForPush, checkAsked } = useActions('notify', [
+      'askForPush',
+      'checkAsked',
+    ]);
+
+    askForPush();
+    checkAsked();
 
     const UpdateExTodo = (index) => {
       updateTodo({

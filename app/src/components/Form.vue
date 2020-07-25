@@ -15,14 +15,16 @@
         </b-form-input>
       </b-form-group>
       <b-form-group
-        description="You can live date and time empty">
+        description="You can leave date and time empty">
         <label for="datepicker" class="h5">
           Choose notification date
         </label>
         <b-form-datepicker
           id="datepicker"
           v-model="date"
-          :min="minDate">
+          :min="minDate"
+          today-button
+          reset-button>
         </b-form-datepicker>
       </b-form-group>
       <transition name="fade">
@@ -32,12 +34,14 @@
           </label>
           <b-form-timepicker
             id="timepicker"
-            v-model="time">
+            v-model="time"
+            now-button
+            reset-button>
           </b-form-timepicker>
         </b-form-group>
       </transition>
       <b-form-group>
-        <b-form-radio-group v-model="badge">
+        <b-form-radio-group v-model="badge" required>
           <b-form-radio :value="null" size="lg">
             No Badge
           </b-form-radio>
@@ -66,8 +70,6 @@ import { useActions } from '@u3u/vue-hooks';
 import { ref } from '@vue/composition-api';
 // import Push from 'push.js';
 
-// TODO: add some features with this: 'Notification.permission === "denied"'
-
 export default {
   name: 'Form',
   setup() {
@@ -80,6 +82,10 @@ export default {
     const { createTodo } = useActions('todos', [
       'createTodo',
     ]);
+
+    // const defaultTime = () => {
+    //   const time = new Date();
+    // };
 
     const addNewTodo = () => {
       if (date.value !== '') {
@@ -96,12 +102,14 @@ export default {
       }
       todo.value = '';
       date.value = '';
+      time.value = '';
       badge.value = null;
     };
 
     const resetForm = () => {
       todo.value = '';
       date.value = '';
+      time.value = '';
       badge.value = null;
     };
 
