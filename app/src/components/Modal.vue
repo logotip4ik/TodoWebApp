@@ -29,7 +29,6 @@ import { useState } from '@u3u/vue-hooks';
 
 export default {
   name: 'Modal',
-  props: ['todo'],
   // eslint-disable-next-line
   data: () => {
     return {
@@ -37,12 +36,12 @@ export default {
     };
   },
   setup() {
-    const { indexTodo } = useState('todos', [
-      'indexTodo',
+    const { currentlyEditing } = useState('todos', [
+      'currentlyEditing',
     ]);
 
     return {
-      indexTodo,
+      todo: currentlyEditing,
     };
   },
 };

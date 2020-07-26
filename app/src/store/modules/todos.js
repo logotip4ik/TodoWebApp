@@ -6,7 +6,10 @@ export default {
   state: {
     todos: [],
     // Index of currently editing todo
-    indexTodo: null,
+    currentlyEditing: {
+      title: 'No Todo selected',
+      completed: true,
+    },
     loading: false,
   },
   actions: {
@@ -42,7 +45,7 @@ export default {
         });
     },
     async settingsTodo({ state }, { index }) {
-      state.indexTodo = index;
+      state.currentlyEditing = state.todos[index];
     },
     async listen({ state }) {
       state.loading = true;

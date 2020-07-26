@@ -34,8 +34,7 @@
       <p class="h4 my-1"><b-icon-plus-circle /></p>
     </b-button>
     <Modal
-      v-if="!loading"
-      :todo="todos[indexTodo]"/>
+      v-if="!loading"/>
   </div>
 </template>
 
@@ -50,7 +49,6 @@ import NoneState from '../components/NoneState.vue';
 import Modal from '../components/Modal.vue';
 
 // TODO: add some features with this: 'Push.Permission.get() === "denied"'
-// TODO: Default time if user selected some date to current time + 45 min
 
 export default {
   name: 'Messages',

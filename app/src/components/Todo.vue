@@ -29,13 +29,14 @@
         class="badgeForTodo">
         Critical</b-badge>
       <b-button
-        style="padding: 0!important;"
+        style="padding: 0 0.05em!important;"
         variant="outline-secondary"
         v-b-modal.ModalTodo
         @click="settingsTodo"
         class="settings">
         <b-icon-gear
-          fill="white"
+          style="my-0"
+          scale="0.8"
           aria-label="SettingsForTodo"/>
       </b-button>
     </b-card>
@@ -87,7 +88,7 @@ export default {
 }
 .settings{
   position: absolute;
-  top: 5%;
-  left: 0.5%;
+  top: 4px;
+  left: 4px;
 }
 </style>
