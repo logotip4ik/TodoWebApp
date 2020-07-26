@@ -4,7 +4,9 @@ import feathers from '../../feathers';
 export default {
   namespaced: true,
   state: {
-    todos: null,
+    todos: [],
+    // Index of currently editing todo
+    indexTodo: null,
     loading: false,
   },
   actions: {
@@ -38,6 +40,9 @@ export default {
           // eslint-disable-next-line
           console.error('Error ocurred: ', JSON.stringify(err));
         });
+    },
+    async settingsTodo({ state }, { index }) {
+      state.indexTodo = index;
     },
     async listen({ state }) {
       state.loading = true;

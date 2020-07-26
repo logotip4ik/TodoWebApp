@@ -88,7 +88,7 @@ export default {
     // };
 
     const addNewTodo = () => {
-      if (date.value !== '') {
+      if (date.value !== '' && time.value !== '') {
         createTodo({
           title: todo.value.trim(),
           badge: badge.value,
@@ -98,6 +98,7 @@ export default {
         createTodo({
           title: todo.value.trim(),
           badge: badge.value,
+          pushDate: new Date(new Date().getTime() + 45 * 60000),
         });
       }
       todo.value = '';

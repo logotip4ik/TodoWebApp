@@ -15,9 +15,8 @@
             :class="todo.completed ? 'line-through': ''"
             @updateTodo="UpdateExTodo(index)"
             @removeTodo="RemoveExTodo(index)"
-            @settingsTodo="settingsExTodo(index)"/>
+            @settingsTodo="SettingsExTodo(index)"/>
         <!-- TODO: add state for setting the todo, probably (editing, currentlyEditing) -->
-          <SettingsTodo v-if="false" />
         </transition-group>
       </div>
     <transition name="fade">
@@ -34,6 +33,9 @@
     <b-button v-b-toggle.formCollaps pill variant="info" class="addTodo">
       <p class="h4 my-1"><b-icon-plus-circle /></p>
     </b-button>
+    <Modal
+      v-if="!loading"
+      :todo="todos[indexTodo]"/>
   </div>
 </template>
 
@@ -44,10 +46,11 @@ import { useState, useActions, useRouter } from '@u3u/vue-hooks';
 import Navbar from '../components/Navbar.vue';
 import Form from '../components/Form.vue';
 import Todo from '../components/Todo.vue';
-import SettingsTodo from '../components/SettingsTodo.vue';
 import NoneState from '../components/NoneState.vue';
+import Modal from '../components/Modal.vue';
 
-// TODO: add some features with this: 'Push.Permission.DENIED === "denied"'
+// TODO: add some features with this: 'Push.Permission.get() === "denied"'
+// TODO: Default time if user selected some date to current time + 45 min
 
 export default {
   name: 'Messages',
@@ -56,7 +59,7 @@ export default {
     Todo,
     Form,
     NoneState,
-    SettingsTodo,
+    Modal,
   },
   setup() {
     const { router } = useRouter();
@@ -64,8 +67,9 @@ export default {
       'user',
       'loading',
     ]);
-    const { todos } = useState('todos', [
+    const { todos, indexTodo } = useState('todos', [
       'todos',
+      'indexTodo',
     ]);
     const { logout } = useActions('auth', [
       'logout',
@@ -74,19 +78,19 @@ export default {
       listen,
       updateTodo,
       removeTodo,
+      settingsTodo,
     } = useActions('todos', [
       'listen',
       'updateTodo',
       'removeTodo',
+      'settingsTodo',
     ]);
 
-    const { askForPush, checkAsked } = useActions('notify', [
+    const { askForPush } = useActions('notify', [
       'askForPush',
-      'checkAsked',
     ]);
 
     askForPush();
-    checkAsked();
 
     const UpdateExTodo = (index) => {
       updateTodo({
@@ -100,8 +104,10 @@ export default {
       });
     };
 
-    const settingsExTodo = (index) => {
-      console.log(index);
+    const SettingsExTodo = (index) => {
+      settingsTodo({
+        index,
+      });
     };
 
     watch(user, () => {
@@ -115,12 +121,13 @@ export default {
     return {
       UpdateExTodo,
       RemoveExTodo,
-      settingsExTodo,
+      SettingsExTodo,
       user,
       loading,
       logout,
       todos,
       listen,
+      indexTodo,
     };
   },
 };
@@ -150,7 +157,7 @@ export default {
   opacity: 0;
 }
 .list-enter-active, .list-leave-active {
-  transition: all 1s;
+  transition: all .5s;
 }
 .list-enter, .list-leave-to{
   opacity: 0;

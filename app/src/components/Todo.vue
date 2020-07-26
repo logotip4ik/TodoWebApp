@@ -28,9 +28,16 @@
         variant="danger"
         class="badgeForTodo">
         Critical</b-badge>
-      <b-icon-gear
+      <b-button
+        style="padding: 0!important;"
+        variant="outline-secondary"
+        v-b-modal.ModalTodo
         @click="settingsTodo"
-        class="settings"/>
+        class="settings">
+        <b-icon-gear
+          fill="white"
+          aria-label="SettingsForTodo"/>
+      </b-button>
     </b-card>
   </div>
 </template>
@@ -79,7 +86,6 @@ export default {
   right: -2%;
 }
 .settings{
-  cursor: pointer;
   position: absolute;
   top: 5%;
   left: 0.5%;

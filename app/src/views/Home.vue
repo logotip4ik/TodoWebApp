@@ -10,22 +10,25 @@
       <i class="fab fa-github"></i>
     </span>
   </b-button>
-  <!-- <Loading v-if="loading && !user"/> -->
+  <div
+    v-if="loading && !user"
+    class="d-flex justify-content-between align-items-center">
+    <strong>Waiting you for login...</strong>
+    <b-spinner
+      style="width: 3rem; height: 3rem;"
+      class="ml-auto" />
+  </div>
 </div>
 </template>
 
 <script>
 import { watch } from '@vue/composition-api';
 import { useState, useActions, useRouter } from '@u3u/vue-hooks';
-// import Loading from '../components/Loading.vue';
 
 export default {
   name: 'Home',
-  components: {
-    // Loading,
-  },
   setup() {
-    /* eslint-disable-next-line */
+    // eslint-disable-next-line
     const { router } = useRouter();
     const { user, loading } = useState('auth', [
       'user',
@@ -36,7 +39,7 @@ export default {
       'logout',
     ]);
     watch(user, () => {
-      /* eslint-disable-next-line */
+      // eslint-disable-next-line
       if (user.value) {
         router.push('/messages');
       }
