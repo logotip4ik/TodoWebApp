@@ -9,6 +9,7 @@ export default {
     currentlyEditing: {
       title: 'No Todo selected',
       completed: true,
+      pushDate: new Date(),
     },
     loading: false,
   },
@@ -16,12 +17,10 @@ export default {
     async createTodo(_, todo) {
       await feathers.service('todo').create(todo);
     },
-    async updateTodo({ state }, { index }) {
+    async updateTodo(_, { todo }) {
       await feathers.service('todo')
         // eslint-disable-next-line
-        .patch(state.todos[index]._id, {
-          completed: !state.todos[index].completed,
-        })
+        .patch(todo._id, todo)
         .then((res) => {
           // eslint-disable-next-line
           console.info('Object was updated: ', JSON.stringify(res));
@@ -64,7 +63,10 @@ export default {
         state.todos.forEach((todo, index) => {
         // eslint-disable-next-line
           if (todo._id === updatedTodo._id) {
+            state.todos[index].title = updatedTodo.title;
+            state.todos[index].badge = updatedTodo.badge;
             state.todos[index].completed = updatedTodo.completed;
+            state.todos[index].pushDate = updatedTodo.pushDate;
           }
         });
       });

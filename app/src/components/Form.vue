@@ -27,7 +27,7 @@
           reset-button>
         </b-form-datepicker>
       </b-form-group>
-      <transition name="fade">
+      <transition name="fade" mode="out-in">
         <b-form-group v-if="date !== ''">
           <label for="timepicker" class="h5">
             Choose notification time
@@ -36,7 +36,8 @@
             id="timepicker"
             v-model="time"
             now-button
-            reset-button>
+            reset-button
+            :hide-header="true">
           </b-form-timepicker>
         </b-form-group>
       </transition>

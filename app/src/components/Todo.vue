@@ -31,7 +31,6 @@
       <b-button
         style="padding: 0 0.05em!important;"
         variant="outline-secondary"
-        v-b-modal.ModalTodo
         @click="settingsTodo"
         class="settings">
         <b-icon-gear
@@ -69,6 +68,7 @@ export default {
     },
     settingsTodo() {
       this.$emit('settingsTodo');
+      this.$bvModal.show('ModalTodo');
     },
   },
 };

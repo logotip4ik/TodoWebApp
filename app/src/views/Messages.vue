@@ -16,7 +16,6 @@
             @updateTodo="UpdateExTodo(index)"
             @removeTodo="RemoveExTodo(index)"
             @settingsTodo="SettingsExTodo(index)"/>
-        <!-- TODO: add state for setting the todo, probably (editing, currentlyEditing) -->
         </transition-group>
       </div>
     <transition name="fade">
@@ -27,7 +26,7 @@
         style="width: 3rem; height: 3rem;"
         class="spinner_"/>
     </transition>
-    <transition name="fade">
+    <transition name="fade" mode="out-in">
       <NoneState v-if="!loading && (todos === null || todos.length === 0)"/>
     </transition>
     <b-button v-b-toggle.formCollaps pill variant="info" class="addTodo">
@@ -65,9 +64,8 @@ export default {
       'user',
       'loading',
     ]);
-    const { todos, indexTodo } = useState('todos', [
+    const { todos } = useState('todos', [
       'todos',
-      'indexTodo',
     ]);
     const { logout } = useActions('auth', [
       'logout',
@@ -91,8 +89,13 @@ export default {
     askForPush();
 
     const UpdateExTodo = (index) => {
+      // eslint-disable-next-line
+      const { _id, completed } = todos.value[index];
       updateTodo({
-        index,
+        todo: {
+          _id,
+          completed: !completed,
+        },
       });
     };
 
@@ -125,7 +128,6 @@ export default {
       logout,
       todos,
       listen,
-      indexTodo,
     };
   },
 };
@@ -148,11 +150,17 @@ export default {
   top: 50%;
   left:50%;
 }
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: height, opacity;
+  transition-timing-function: ease;
+  overflow: hidden;
 }
-.fade-enter, .fade-leave-to{
-  opacity: 0;
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
 }
 .list-enter-active, .list-leave-active {
   transition: all .5s;
