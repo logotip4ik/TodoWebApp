@@ -28,18 +28,18 @@
           label-for="badgeInput"
           label-class="h5">
           <b-form-radio-group v-model="badge" required>
-            <b-form-radio :value="null" size="lg">
+            <b-form-radio value="0">
               No Badge
             </b-form-radio>
-            <b-form-radio value="1" size="lg">
+            <b-form-radio value="1">
               Normal priority
               <b-badge variant="primary">Normal</b-badge>
             </b-form-radio>
-            <b-form-radio value="2" size="lg">
+            <b-form-radio value="2">
               High priority
               <b-badge variant="warning" class="text-white">High</b-badge>
             </b-form-radio>
-            <b-form-radio value="3" size="lg">
+            <b-form-radio value="3">
               Critical priority
               <b-badge variant="danger">Critical</b-badge>
             </b-form-radio>
@@ -94,7 +94,7 @@ export default {
     return {
       edit: false,
       newTitle: '',
-      newBadge: null,
+      newBadge: '0',
       newDate: '',
       newTime: '',
     };

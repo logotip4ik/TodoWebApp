@@ -41,7 +41,7 @@ export default {
     watch(user, () => {
       // eslint-disable-next-line
       if (user.value) {
-        router.push('/messages');
+        router.push('/todos');
       }
     });
     return {

@@ -3,7 +3,7 @@
     <Navbar/>
       <div class="container">
         <b-collapse id="formCollaps">
-          <Form />
+          <Form ref="form" />
         </b-collapse>
         <transition-group
           name="list">
@@ -18,18 +18,25 @@
             @settingsTodo="SettingsExTodo(index)"/>
         </transition-group>
       </div>
-    <transition name="fade">
+    <transition
+      name="fade"
+      mode="out-in"
+      @beforeLeave="beforeLeave"
+      @enter="enter"
+      @afterEnter="afterEnter">
       <b-spinner
         v-if="loading"
         variant="info"
         label="Loading..."
         style="width: 3rem; height: 3rem;"
         class="spinner_"/>
-    </transition>
-    <transition name="fade" mode="out-in">
       <NoneState v-if="!loading && (todos === null || todos.length === 0)"/>
     </transition>
-    <b-button v-b-toggle.formCollaps pill variant="info" class="addTodo">
+    <b-button
+      pill
+      @click="collapsForm"
+      variant="info"
+      class="addTodo">
       <p class="h4 my-1"><b-icon-plus-circle /></p>
     </b-button>
     <Modal
@@ -47,10 +54,8 @@ import Todo from '../components/Todo.vue';
 import NoneState from '../components/NoneState.vue';
 import Modal from '../components/Modal.vue';
 
-// TODO: add some features with this: 'Push.Permission.get() === "denied"'
-
 export default {
-  name: 'Messages',
+  name: 'Todos',
   components: {
     Navbar,
     Todo,
@@ -129,6 +134,32 @@ export default {
       todos,
       listen,
     };
+  },
+  methods: {
+    collapsForm() {
+      this.$root.$emit('bv::toggle::collapse', 'formCollaps');
+      const wait = (ms) => new Promise((resolve) => { setTimeout(resolve, ms); });
+      wait(400).then(() => {
+        this.$refs.form.$refs.inputFocus.$el.focus();
+      });
+    },
+    beforeLeave(element) {
+      this.prevHeight = getComputedStyle(element).height;
+    },
+    enter(element) {
+      const { height } = getComputedStyle(element);
+      // eslint-disable-next-line
+      element.style.height = this.prevHeight;
+
+      setTimeout(() => {
+        // eslint-disable-next-line
+        element.style.height = height;
+      });
+    },
+    afterEnter(element) {
+      // eslint-disable-next-line
+      element.style.height = 'auto';
+    },
   },
 };
 </script>

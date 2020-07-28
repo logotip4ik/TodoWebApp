@@ -2,13 +2,13 @@
   <div class="container-sm mt-2 mb-3">
     <b-form @submit.prevent="addNewTodo" @reset="resetForm">
       <b-form-group
-        id="new-todo"
         label="Type new Todo"
         label-for="newTodo"
         label-class="h5">
         <b-form-input
-          id="new-todo"
+          id="newTodo"
           v-model="todo"
+          ref="inputFocus"
           type="text"
           required
           placeholder="Add new Todo...">
@@ -27,8 +27,10 @@
           reset-button>
         </b-form-datepicker>
       </b-form-group>
-      <transition name="fade" mode="out-in">
-        <b-form-group v-if="date !== ''">
+      <transition
+        name="fade"
+        mode="out-in">
+        <b-form-group v-if="date">
           <label for="timepicker" class="h5">
             Choose notification time
           </label>
@@ -43,7 +45,7 @@
       </transition>
       <b-form-group>
         <b-form-radio-group v-model="badge" required>
-          <b-form-radio :value="null" size="lg">
+          <b-form-radio value="0" size="lg">
             No Badge
           </b-form-radio>
           <b-form-radio value="1" size="lg">
@@ -75,7 +77,7 @@ export default {
   name: 'Form',
   setup() {
     const todo = ref('');
-    const badge = ref(null);
+    const badge = ref('0');
     const date = ref('');
     const time = ref('');
     const now = new Date();
@@ -84,9 +86,12 @@ export default {
       'createTodo',
     ]);
 
-    // const defaultTime = () => {
-    //   const time = new Date();
-    // };
+    const resetForm = () => {
+      todo.value = '';
+      date.value = '';
+      time.value = '';
+      badge.value = '0';
+    };
 
     const addNewTodo = () => {
       if (date.value !== '' && time.value !== '') {
@@ -99,20 +104,10 @@ export default {
         createTodo({
           title: todo.value.trim(),
           badge: badge.value,
-          pushDate: new Date(new Date().getTime() + 45 * 60000),
+          pushDate: new Date(new Date().getTime() + 40 * 60000),
         });
       }
-      todo.value = '';
-      date.value = '';
-      time.value = '';
-      badge.value = null;
-    };
-
-    const resetForm = () => {
-      todo.value = '';
-      date.value = '';
-      time.value = '';
-      badge.value = null;
+      resetForm();
     };
 
     const minDate = new Date(today);
@@ -129,12 +124,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .4s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
-</style>
