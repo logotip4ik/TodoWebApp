@@ -144,10 +144,16 @@ export default {
     },
     pushdate: {
       get() {
-        const newDate = new Date(this.date).toLocaleString();
-        const day = newDate.slice(0, 2);
-        const month = newDate.slice(3, 5);
-        const year = newDate.slice(6, 10);
+        const newDate = new Date(this.date);
+        const day = new Intl.DateTimeFormat('en', {
+          day: '2-digit',
+        }).format(newDate).toString();
+        const month = new Intl.DateTimeFormat('en', {
+          month: '2-digit',
+        }).format(newDate).toString();
+        const year = new Intl.DateTimeFormat('en', {
+          year: 'numeric',
+        }).format(newDate).toString();
         return `${year}-${month}-${day}`;
       },
       set(val) {
@@ -156,9 +162,14 @@ export default {
     },
     pushtime: {
       get() {
-        const newTime = new Date(this.date).toLocaleString();
-        const hours = newTime.slice(12, 14);
-        const minutes = newTime.slice(15, 17);
+        const newTime = new Date(this.date);
+        const hours = new Intl.DateTimeFormat('en', {
+          hour: '2-digit',
+          hour12: false,
+        }).format(newTime).toString();
+        const minutes = new Intl.DateTimeFormat('en', {
+          minute: '2-digit',
+        }).format(newTime).toString();
         return `${hours}:${minutes}`;
       },
       set(val) {
