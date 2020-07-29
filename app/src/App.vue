@@ -16,3 +16,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+  body{
+    background-color: #FCF7F8;
+    color: #222222;
+  }
+</style>

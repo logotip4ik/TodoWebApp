@@ -35,7 +35,7 @@
     <b-button
       pill
       @click="collapsForm"
-      variant="info"
+      variant="light"
       class="addTodo">
       <p class="h4 my-1"><b-icon-plus-circle /></p>
     </b-button>
@@ -172,6 +172,8 @@ export default {
   cursor: pointer;
 }
 .addTodo{
+  color: #222222;
+  background-color: #66CED6!important;
   position: fixed;
   bottom: 2rem;
   right: 1rem;

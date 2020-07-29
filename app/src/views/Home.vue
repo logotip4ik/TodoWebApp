@@ -7,7 +7,7 @@
     @click="loginWithGithub">
     Log in with GitHub
     <span class="icon">
-      <i class="fab fa-github"></i>
+      <i class="fab fa-500px fa-github" />
     </span>
   </b-button>
   <div
