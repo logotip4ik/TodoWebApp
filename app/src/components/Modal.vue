@@ -46,6 +46,15 @@
           </b-form-radio-group>
         </b-form-group>
         <b-form-group
+          label="New Badge Text"
+          label-for="badge-text"
+          label-class="h5">
+          <b-form-input
+            v-model="badgeText"
+            id="badge-text"
+            type="text"/>
+        </b-form-group>
+        <b-form-group
           label="New Date"
           label-for="dateInput"
           label-class="h5">
@@ -95,6 +104,7 @@ export default {
       edit: false,
       newTitle: '',
       newBadge: '0',
+      newBadgeText: '',
       newDate: '',
       newTime: '',
     };
@@ -118,6 +128,7 @@ export default {
         _id: this._id,
         title: this.newTitle.trim() !== '' ? this.newTitle.trim() : this.title,
         badge: this.newBadge !== this.badge ? this.newBadge : this.badge,
+        badgeText: this.newBadgeText !== this.badgeText ? this.newBadgeText : this.badgeText,
         pushDate: `${
           (this.newDate !== this.pushdate && this.newDate) ? this.newDate : this.pushdate} ${
           (this.newTime !== this.pushtime && this.newTime) ? this.newTime : this.pushtime}`,
@@ -186,6 +197,12 @@ export default {
       get() { return this.currentlyEditing.badge; },
       set(val) {
         this.newBadge = val;
+      },
+    },
+    badgeText: {
+      get() { return this.currentlyEditing.badgeText; },
+      set(val) {
+        this.newBadgeText = val;
       },
     },
   },

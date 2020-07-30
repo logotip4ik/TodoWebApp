@@ -32,13 +32,24 @@
         class="spinner_"/>
       <NoneState v-if="!loading && (todos === null || todos.length === 0)"/>
     </transition>
-    <b-button
-      pill
-      @click="collapsForm"
-      variant="light"
-      class="addTodo">
-      <p class="h4 my-1"><b-icon-plus-circle /></p>
-    </b-button>
+    <b-button-toolbar key-nav class="addTodo">
+      <b-button-group>
+        <b-button
+          @click="collapsForm"
+          variant="light"
+          style=""
+          class="shadow left-button">
+          <p style="background: #66CED6;" class="h4 my-auto left-button"><b-icon-plus /></p>
+        </b-button>
+        <!-- <div class="line_" /> -->
+        <b-button
+          variant="light"
+          class="shadow right-button"
+          style="background: #66CED6;border-collapse: separate;">
+          <p class="h5 my-auto"><b-icon-search /></p>
+        </b-button>
+      </b-button-group>
+    </b-button-toolbar>
     <Modal
       v-if="!loading"/>
   </div>
@@ -177,6 +188,17 @@ export default {
   position: fixed;
   bottom: 2rem;
   right: 1rem;
+}
+.left-button{
+  border-radius: 0.25rem;
+}
+.right-button{
+  border-radius: 0.25rem;
+}
+.line_{
+  height: 100%;
+  width: 2px;
+  background: #6c757d;
 }
 .spinner_{
   position: fixed;

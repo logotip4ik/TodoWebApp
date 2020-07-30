@@ -17,17 +17,18 @@
         v-if="todo.badge == 1"
         variant="primary"
         class="badgeForTodo">
-        Normal</b-badge>
+        {{ todo.badgeText !== '' ? todo.badgeText : 'Normal'}}
+      </b-badge>
       <b-badge
         v-if="todo.badge == 2"
         variant="warning"
         class="text-white badgeForTodo">
-        High</b-badge>
+        {{ todo.badgeText !== '' ? todo.badgeText : 'High'}}</b-badge>
       <b-badge
         v-if="todo.badge == 3"
         variant="danger"
         class="badgeForTodo">
-        Critical</b-badge>
+        {{ todo.badgeText !== '' ? todo.badgeText : 'Critical'}}</b-badge>
       <b-button
         style="padding: 0 0.05em!important;"
         variant="outline-secondary"

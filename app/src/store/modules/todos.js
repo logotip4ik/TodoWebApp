@@ -65,6 +65,7 @@ export default {
           if (todo._id === updatedTodo._id) {
             state.todos[index].title = updatedTodo.title;
             state.todos[index].badge = updatedTodo.badge;
+            state.todos[index].badgeText = updatedTodo.badgeText;
             state.todos[index].completed = updatedTodo.completed;
             state.todos[index].pushDate = updatedTodo.pushDate;
           }

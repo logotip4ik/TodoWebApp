@@ -50,18 +50,34 @@
           </b-form-radio>
           <b-form-radio value="1" size="lg">
             Normal priority
-            <b-badge variant="primary">Normal</b-badge>
+            <b-badge variant="primary">{{userBadge !== '' ? userBadge : 'Normal'}}</b-badge>
           </b-form-radio>
           <b-form-radio value="2" size="lg">
             High priority
-            <b-badge variant="warning" class="text-white">High</b-badge>
+            <b-badge variant="warning"
+              class="text-white">{{userBadge !== '' ? userBadge : 'High'}}</b-badge>
           </b-form-radio>
           <b-form-radio value="3" size="lg">
             Critical priority
-            <b-badge variant="danger">Critical</b-badge>
+            <b-badge variant="danger">{{userBadge !== '' ? userBadge : 'Critical'}}</b-badge>
           </b-form-radio>
         </b-form-radio-group>
       </b-form-group>
+      <transition
+        name="fade"
+        mode="out-in">
+        <b-form-group
+          v-if="badge != 0"
+          label="Select text for badges"
+          label-for="badge-text"
+          description="You can leave it empty">
+          <b-form-input
+            id="badge-text"
+            v-model="userBadge"
+            size="sm"
+            placeholder="Text for badge..." />
+        </b-form-group>
+      </transition>
       <b-button class="mr-2" type="submit" variant="primary">Submit</b-button>
       <b-button type="reset" variant="outline-warning">Reset</b-button>
     </b-form>
@@ -75,9 +91,19 @@ import { ref } from '@vue/composition-api';
 
 export default {
   name: 'Form',
+  data() {
+    return {
+      badges: {
+        1: 'Normal',
+        2: 'High',
+        3: 'Critical',
+      },
+    };
+  },
   setup() {
     const todo = ref('');
     const badge = ref('0');
+    const userBadge = ref('');
     const date = ref('');
     const time = ref('');
     const now = new Date();
@@ -91,6 +117,7 @@ export default {
       date.value = '';
       time.value = '';
       badge.value = '0';
+      userBadge.value = '';
     };
 
     const addNewTodo = () => {
@@ -98,12 +125,21 @@ export default {
         createTodo({
           title: todo.value.trim(),
           badge: badge.value,
+          badgeText: userBadge.value !== '' ? userBadge.value : '',
           pushDate: `${date.value} ${time.value}`,
+        });
+      } else if (date.value) {
+        createTodo({
+          title: todo.value.trim(),
+          badge: badge.value,
+          badgeText: userBadge.value !== '' ? userBadge.value : '',
+          pushDate: new Date(date.value),
         });
       } else {
         createTodo({
           title: todo.value.trim(),
           badge: badge.value,
+          badgeText: userBadge.value !== '' ? userBadge.value : '',
           pushDate: new Date(new Date().getTime() + 40 * 60000),
         });
       }
@@ -115,6 +151,7 @@ export default {
     return {
       addNewTodo,
       resetForm,
+      userBadge,
       todo,
       time,
       badge,
