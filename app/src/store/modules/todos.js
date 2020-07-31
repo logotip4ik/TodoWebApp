@@ -12,6 +12,7 @@ export default {
       pushDate: new Date(),
     },
     loading: false,
+    dark: false,
   },
   actions: {
     async createTodo(_, todo) {
@@ -84,7 +85,7 @@ export default {
         state.todos = state.todos.filter((item) => removedTodo._id !== item._id);
       });
     },
-    async notify({ state }, index) {
+    notify({ state }, index) {
       (function loop() {
         let now = new Date();
         const pushdate = state.todos[index] || null;
@@ -119,6 +120,9 @@ export default {
         const delay = 60000 - (now % 60000); // exact ms to next minute interval
         setTimeout(loop, delay);
       }());
+    },
+    async toggleMode({ state }) {
+      state.dark = !state.dark;
     },
   },
 };

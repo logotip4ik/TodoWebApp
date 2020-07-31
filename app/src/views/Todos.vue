@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    :class="dark ? 'dark' : ''"
+    style="height: 100%; transition: all 0.5s">
     <Navbar/>
       <div class="container">
         <b-collapse id="formCollaps">
@@ -12,6 +14,7 @@
             v-bind:key="todo._id"
             :todo="todo"
             :index="index"
+            :dark="dark"
             :class="todo.completed ? 'line-through': ''"
             @updateTodo="UpdateExTodo(index)"
             @removeTodo="RemoveExTodo(index)"
@@ -26,26 +29,34 @@
       @afterEnter="afterEnter">
       <b-spinner
         v-if="loading"
-        variant="info"
+        :variant="dark ? 'light' : 'info'"
         label="Loading..."
         style="width: 3rem; height: 3rem;"
         class="spinner_"/>
-      <NoneState v-if="!loading && (todos === null || todos.length === 0)"/>
+      <NoneState
+        :style="dark ? 'color: #fafafa' : ''"
+        v-if="!loading && (todos === null || todos.length === 0)"/>
     </transition>
     <b-button-toolbar key-nav class="addTodo">
       <b-button-group>
         <b-button
           @click="collapsForm"
-          variant="info"
-          class="shadow left-button">
+          :variant="dark ? 'light' : 'info'"
+          :class="dark ? 'shadow left-button-dark' : 'shadow left-button'">
           <p class="h4 my-auto"><b-icon-plus /></p>
         </b-button>
         <!-- <div class="line_" /> -->
+        <transition
+          name="fade"
+          mode="out-in">
         <b-button
-          variant="info"
-          class="shadow right-button">
-          <p class="h4 my-auto"><b-icon-search /></p>
+          :variant="dark ? 'light' : 'info'"
+          @click="toggleMode"
+          :class="dark ? 'shadow right-button-dark' : 'shadow right-button'">
+            <p v-if="dark" class="h4 my-auto"><b-icon-sun /></p>
+            <p v-else class="h4 my-auto"><b-icon-moon /></p>
         </b-button>
+        </transition>
       </b-button-group>
     </b-button-toolbar>
     <Modal
@@ -78,22 +89,22 @@ export default {
       'user',
       'loading',
     ]);
-    const { todos } = useState('todos', [
+    const { todos, dark } = useState('todos', [
       'todos',
-    ]);
-    const { logout } = useActions('auth', [
-      'logout',
+      'dark',
     ]);
     const {
       listen,
       updateTodo,
       removeTodo,
       settingsTodo,
+      toggleMode,
     } = useActions('todos', [
       'listen',
       'updateTodo',
       'removeTodo',
       'settingsTodo',
+      'toggleMode',
     ]);
 
     const { askForPush } = useActions('notify', [
@@ -131,16 +142,37 @@ export default {
       }
     });
 
+    const darkMode = () => {
+      try {
+        const Dark = localStorage.dark;
+        if (JSON.parse(Dark)) {
+          toggleMode();
+        } else;
+        // eslint-disable-next-line
+      } catch (error) {}
+    };
+
+    darkMode();
+
+    watch(dark, () => {
+      if (dark.value) {
+        localStorage.dark = true;
+      } else {
+        localStorage.dark = false;
+      }
+    });
+
     listen();
 
     return {
       UpdateExTodo,
       RemoveExTodo,
       SettingsExTodo,
+      toggleMode,
       user,
       loading,
-      logout,
       todos,
+      dark,
       listen,
     };
   },
@@ -177,6 +209,9 @@ export default {
 .line-through{
   text-decoration: line-through;
 }
+.dark{
+  background-color: #222222;
+}
 .click{
   cursor: pointer;
 }
@@ -190,10 +225,20 @@ export default {
   border-color: #66CED6;
   color: #222222;
 }
+.left-button-dark{
+  background: #0C2E31;
+  border-color: #0C2E31;
+  color: #fafafa;
+}
 .right-button{
   background: #66CED6;
   border-color: #66CED6;
   color: #222222;
+}
+.right-button-dark{
+  background: #0C2E31;
+  border-color: #0C2E31;
+  color: #fafafa;
 }
 .line_{
   height: 100%;

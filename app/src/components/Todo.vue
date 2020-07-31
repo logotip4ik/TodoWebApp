@@ -1,9 +1,12 @@
 <template>
   <div>
     <b-card
-      class="mt-3">
+      :class="dark ? 'dark-card mt-3' : 'mt-3'"
+      style="transition: all 0.5s;">
         <div class="d-flex full-width col">
-          <div @click="updateTodo" class="d-flex flex-9 click">
+          <div @click="updateTodo" class="d-flex flex-9 click"
+            :style="dark ? 'color: #FCF7F8' : ''"
+            :class="dark ? 'white-line' : ''">
             {{todo.title}}
           </div>
           <div class="d-flex flex-1 justify-content-end">
@@ -48,17 +51,13 @@ import { useActions } from '@u3u/vue-hooks';
 
 export default {
   name: 'Todo',
-  props: ['todo', 'index'],
+  props: ['todo', 'index', 'dark'],
   created() {
     const { notify } = useActions('todos', [
       'notify',
     ]);
 
     if (!this.todo.completed || this.todo.pushDate == null) notify(this.index);
-
-    return {
-      notify,
-    };
   },
   methods: {
     removeTodo() {
@@ -82,6 +81,9 @@ export default {
 .flex-1{
   flex: 1;
 }
+.white-line{
+  text-decoration: line-through solid #ccc!important;
+}
 .badgeForTodo{
   position: absolute;
   top: -10%;
@@ -91,5 +93,8 @@ export default {
   position: absolute;
   top: 4px;
   left: 4px;
+}
+.dark-card{
+  background-color: #444;
 }
 </style>

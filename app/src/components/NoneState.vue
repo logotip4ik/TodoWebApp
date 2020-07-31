@@ -1,6 +1,8 @@
 <template>
   <transition name="fade" mode="out-in" appear>
-    <div class="d-flex flex-column justify-content-center align-items-center noneState mx-4">
+    <div
+      class="d-flex flex-column justify-content-center align-items-center noneState mx-4"
+      style="height: 100%!impotrant; transition: all 0.5s;">
       <b-icon-check2
         class="checked"
         style="width: 150px; height: 150px"/>
@@ -16,6 +18,9 @@ export default {
 </script>
 
 <style>
+.noneState{
+  height: calc(100% - 54.8px)!important;
+}
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }
