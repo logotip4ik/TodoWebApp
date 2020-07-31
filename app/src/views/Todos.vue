@@ -36,17 +36,15 @@
       <b-button-group>
         <b-button
           @click="collapsForm"
-          variant="light"
-          style=""
+          variant="info"
           class="shadow left-button">
-          <p style="background: #66CED6;" class="h4 my-auto left-button"><b-icon-plus /></p>
+          <p class="h4 my-auto"><b-icon-plus /></p>
         </b-button>
         <!-- <div class="line_" /> -->
         <b-button
-          variant="light"
-          class="shadow right-button"
-          style="background: #66CED6;border-collapse: separate;">
-          <p class="h5 my-auto"><b-icon-search /></p>
+          variant="info"
+          class="shadow right-button">
+          <p class="h4 my-auto"><b-icon-search /></p>
         </b-button>
       </b-button-group>
     </b-button-toolbar>
@@ -183,17 +181,19 @@ export default {
   cursor: pointer;
 }
 .addTodo{
-  color: #222222;
-  background-color: #66CED6!important;
   position: fixed;
   bottom: 2rem;
   right: 1rem;
 }
 .left-button{
-  border-radius: 0.25rem;
+  background: #66CED6;
+  border-color: #66CED6;
+  color: #222222;
 }
 .right-button{
-  border-radius: 0.25rem;
+  background: #66CED6;
+  border-color: #66CED6;
+  color: #222222;
 }
 .line_{
   height: 100%;
