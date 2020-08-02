@@ -85,7 +85,7 @@ export default {
         state.todos = state.todos.filter((item) => removedTodo._id !== item._id);
       });
     },
-    notify({ state }, index) {
+    async notify({ state }, index) {
       (function loop() {
         let now = new Date();
         const pushdate = state.todos[index] || null;

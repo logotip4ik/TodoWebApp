@@ -89,6 +89,13 @@ export default {
       'user',
       'loading',
     ]);
+
+    watch(user, () => {
+      if (!user.value) {
+        router.push('/');
+      }
+    });
+
     const { todos, dark } = useState('todos', [
       'todos',
       'dark',
@@ -135,12 +142,6 @@ export default {
         index,
       });
     };
-
-    watch(user, () => {
-      if (!user.value) {
-        router.push('/');
-      }
-    });
 
     const darkMode = () => {
       try {

@@ -7,7 +7,7 @@
         :label-class="dark ? 'h5 dark-label' : 'h5'">
         <b-form-input
           id="newTodo"
-          v-model="todo"
+          v-model.trim="todo"
           ref="inputFocus"
           type="text"
           required
@@ -91,7 +91,7 @@
           description="You can leave it empty">
           <b-form-input
             id="badge-text"
-            v-model="userBadge"
+            v-model.trim="userBadge"
             :class="dark ? 'dark-input' : ''"
             size="sm"
             placeholder="Text for badge..." />
@@ -149,14 +149,14 @@ export default {
         });
       } else if (date.value) {
         createTodo({
-          title: todo.value.trim(),
+          title: todo.value,
           badge: badge.value,
           badgeText: userBadge.value !== '' ? userBadge.value : '',
           pushDate: new Date(date.value),
         });
       } else {
         createTodo({
-          title: todo.value.trim(),
+          title: todo.value,
           badge: badge.value,
           badgeText: userBadge.value !== '' ? userBadge.value : '',
           pushDate: new Date(new Date().getTime() + 40 * 60000),

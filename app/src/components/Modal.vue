@@ -21,7 +21,7 @@
           <b-form-input
             id="titleInput"
             type="text"
-            v-model="title" />
+            v-model.trim="title" />
         </b-form-group>
         <b-form-group
           label="New Badge"
@@ -50,7 +50,7 @@
           label-for="badge-text"
           label-class="h5">
           <b-form-input
-            v-model="badgeText"
+            v-model.trim="badgeText"
             id="badge-text"
             type="text"/>
         </b-form-group>
@@ -126,7 +126,7 @@ export default {
       const todo = {
         // eslint-disable-next-line
         _id: this._id,
-        title: this.newTitle.trim() !== '' ? this.newTitle.trim() : this.title,
+        title: this.newTitle !== '' ? this.newTitle : this.title,
         badge: this.newBadge !== this.badge ? this.newBadge : this.badge,
         badgeText: this.newBadgeText !== this.badgeText ? this.newBadgeText : this.badgeText,
         pushDate: `${
@@ -155,17 +155,14 @@ export default {
     },
     pushdate: {
       get() {
-        const newDate = new Date(this.date);
-        const day = new Intl.DateTimeFormat('en', {
-          day: '2-digit',
-        }).format(newDate).toString();
-        const month = new Intl.DateTimeFormat('en', {
-          month: '2-digit',
-        }).format(newDate).toString();
-        const year = new Intl.DateTimeFormat('en', {
+        const newDate = new Date(this.date); // Time from current todo
+        const date = new Intl.DateTimeFormat('en', {
           year: 'numeric',
-        }).format(newDate).toString();
-        return `${year}-${month}-${day}`;
+          month: '2-digit',
+          day: '2-digit',
+        }).formatToParts(newDate);
+        //       Year             Day              Month
+        return `${date[4].value}-${date[0].value}-${date[2].value}`;
       },
       set(val) {
         this.newDate = val;
@@ -173,15 +170,14 @@ export default {
     },
     pushtime: {
       get() {
-        const newTime = new Date(this.date);
-        const hours = new Intl.DateTimeFormat('en', {
+        const newTime = new Date(this.date); // Time from current todo
+        const time = new Intl.DateTimeFormat('en', {
           hour: '2-digit',
           hour12: false,
-        }).format(newTime).toString();
-        const minutes = new Intl.DateTimeFormat('en', {
+          hourCycle: 'h23',
           minute: '2-digit',
-        }).format(newTime).toString();
-        return `${hours}:${minutes}`;
+        }).format(newTime);
+        return time;
       },
       set(val) {
         this.newTime = val;
