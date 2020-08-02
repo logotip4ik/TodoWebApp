@@ -1,10 +1,8 @@
 <template>
   <div>
     <b-navbar
-      :style="dark ? 'background-color: #123E40; background-color: #0C2E31;'
-        : 'background-color: #66CED6'"
       :type="dark ? 'dark' : 'light'"
-      class="transition">
+      :class="dark ? 'transition dark-navbar' : 'transition navbar-custom'">
       <b-navbar-brand href="/">
         <h4
           style="margin: 0!important;padding: 0!important;"
@@ -42,5 +40,11 @@ export default {
 <style lang="scss">
 .transition{
   transition: all 0.5s;
+}
+.navbar-custom{
+  background-color: #66CED6;
+}
+.dark-navbar{
+  background-color: darken($color: #66CED6, $amount: 50)
 }
 </style>

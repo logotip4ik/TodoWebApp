@@ -211,7 +211,7 @@ export default {
   text-decoration: line-through;
 }
 .dark{
-  background-color: #222222;
+  background-color: #222222!important;
 }
 .click{
   cursor: pointer;

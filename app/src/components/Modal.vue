@@ -1,6 +1,7 @@
 <template>
   <b-modal
-    id="ModalTodo">
+    id="ModalTodo"
+    :modal-class="dark ? 'dark-modal dark-close-button' : ''">
     <h1>{{title}}</h1>
     <transition
       name="fade"
@@ -21,6 +22,7 @@
           <b-form-input
             id="titleInput"
             type="text"
+            :class="dark ? 'dark-input' : ''"
             v-model.trim="title" />
         </b-form-group>
         <b-form-group
@@ -28,18 +30,26 @@
           label-for="badgeInput"
           label-class="h5">
           <b-form-radio-group v-model="badge" required>
-            <b-form-radio value="0">
+            <b-form-radio
+              value="0"
+              :class="dark ? 'dark-checkbox' : ''">
               No Badge
             </b-form-radio>
-            <b-form-radio value="1">
+            <b-form-radio
+              value="1"
+              :class="dark ? 'dark-checkbox' : ''">
               Normal priority
               <b-badge variant="primary">Normal</b-badge>
             </b-form-radio>
-            <b-form-radio value="2">
+            <b-form-radio
+              value="2"
+              :class="dark ? 'dark-checkbox' : ''">
               High priority
               <b-badge variant="warning" class="text-white">High</b-badge>
             </b-form-radio>
-            <b-form-radio value="3">
+            <b-form-radio
+              value="3"
+              :class="dark ? 'dark-checkbox' : ''">
               Critical priority
               <b-badge variant="danger">Critical</b-badge>
             </b-form-radio>
@@ -52,6 +62,7 @@
           <b-form-input
             v-model.trim="badgeText"
             id="badge-text"
+            :class="dark ? 'dark-input' : ''"
             type="text"/>
         </b-form-group>
         <b-form-group
@@ -60,6 +71,7 @@
           label-class="h5">
           <b-form-input
             v-model="pushdate"
+            :class="dark ? 'dark-input' : ''"
             id="dateInput"
             type="date"/>
         </b-form-group>
@@ -69,6 +81,7 @@
           label-class="h5">
           <b-form-input
             v-model="pushtime"
+            :class="dark ? 'dark-input' : ''"
             id="timeInput"
             type="time"/>
         </b-form-group>
@@ -141,10 +154,13 @@ export default {
 
     const date = computed(() => currentlyEditing.value.pushDate);
 
+    const { dark } = useState('todos', ['dark']);
+
     return {
       currentlyEditing,
       updateExTodo,
       date,
+      dark,
     };
   },
   computed: {
@@ -223,3 +239,14 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.dark-modal > .modal-dialog > .modal-content{
+  background-color: #222!important;
+  color: #FCF7F8!important;
+}
+.dark-close-button > .modal-dialog > .modal-content > .modal-header button{
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+}
+</style>
