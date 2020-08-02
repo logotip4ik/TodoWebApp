@@ -37,7 +37,7 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           draft: false
-          prerelase: false
+          prerelease: false
   # This workflow contains a single job called "greet"
   greet:
     # The type of runner that the job will run on
