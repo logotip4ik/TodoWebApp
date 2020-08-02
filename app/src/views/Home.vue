@@ -34,16 +34,26 @@ export default {
       'user',
       'loading',
     ]);
-    const { loginWithGithub } = useActions('auth', [
-      'loginWithGithub',
-      'logout',
-    ]);
     watch(user, () => {
       // eslint-disable-next-line
       if (user.value) {
         router.push('/todos');
       }
     });
+    const { loginWithGithub } = useActions('auth', [
+      'loginWithGithub',
+      'logout',
+    ]);
+
+    const { toggleDarkMode, checkDarkMode } = useActions('todos', [
+      'toggleDarkMode',
+      'checkDarkMode',
+    ]);
+
+    const darkMode = window.matchMedia('(prefers-color-scheme: dark)');
+    if (darkMode.matches) toggleDarkMode();
+    else { checkDarkMode(); }
+
     return {
       user,
       loading,

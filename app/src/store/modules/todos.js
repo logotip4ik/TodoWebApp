@@ -121,8 +121,15 @@ export default {
         setTimeout(loop, delay);
       }());
     },
-    async toggleMode({ state }) {
+    async toggleDarkMode({ state }) {
       state.dark = !state.dark;
+    },
+    async checkDarkMode({ state }) {
+      try {
+        const darkMode = JSON.parse(localStorage.dark);
+        if (darkMode) state.dark = !state.dark;
+        // eslint-disable-next-line
+      } catch (error) {}
     },
   },
 };

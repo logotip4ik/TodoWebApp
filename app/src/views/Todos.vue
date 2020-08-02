@@ -51,7 +51,7 @@
           mode="out-in">
         <b-button
           :variant="dark ? 'light' : 'info'"
-          @click="toggleMode"
+          @click="toggleDarkMode"
           :class="dark ? 'shadow right-button-dark' : 'shadow right-button'">
             <p v-if="dark" class="h4 my-auto"><b-icon-sun /></p>
             <p v-else class="h4 my-auto"><b-icon-moon /></p>
@@ -105,13 +105,15 @@ export default {
       updateTodo,
       removeTodo,
       settingsTodo,
-      toggleMode,
+      toggleDarkMode,
+      checkDarkMode,
     } = useActions('todos', [
       'listen',
       'updateTodo',
       'removeTodo',
       'settingsTodo',
-      'toggleMode',
+      'toggleDarkMode',
+      'checkDarkMode',
     ]);
 
     const { askForPush } = useActions('notify', [
@@ -143,17 +145,7 @@ export default {
       });
     };
 
-    const darkMode = () => {
-      try {
-        const Dark = localStorage.dark;
-        if (JSON.parse(Dark)) {
-          toggleMode();
-        } else;
-        // eslint-disable-next-line
-      } catch (error) {}
-    };
-
-    darkMode();
+    checkDarkMode();
 
     watch(dark, () => {
       if (dark.value) {
@@ -169,7 +161,7 @@ export default {
       UpdateExTodo,
       RemoveExTodo,
       SettingsExTodo,
-      toggleMode,
+      toggleDarkMode,
       user,
       loading,
       todos,
@@ -212,6 +204,7 @@ export default {
 }
 .dark{
   background-color: #222222!important;
+  color: #FCF7F8!important;
 }
 .click{
   cursor: pointer;
