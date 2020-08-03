@@ -40,6 +40,8 @@
     <b-button-toolbar key-nav class="addTodo">
       <b-button-group>
         <b-button
+          v-shortkey="['ctrl', 'shift', 'a']"
+          @shortkey="collapsForm"
           @click="collapsForm"
           :variant="dark ? 'light' : 'info'"
           :class="dark ? 'shadow left-button-dark' : 'shadow left-button'">

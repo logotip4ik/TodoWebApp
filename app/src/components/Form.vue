@@ -40,8 +40,8 @@
           <b-form-timepicker
             id="timepicker"
             :class="dark ? 'dark-input' : ''"
-            label-selected
             v-model="time"
+            :hour12="false"
             now-button
             reset-button
             :hide-header="true">
@@ -107,6 +107,8 @@
 import { useActions, useState } from '@u3u/vue-hooks';
 import { ref } from '@vue/composition-api';
 // import Push from 'push.js';
+
+// TODO: Add css for menu in date and time picker
 
 export default {
   name: 'Form',
