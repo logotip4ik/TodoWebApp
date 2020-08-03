@@ -8,11 +8,14 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 
+const vueShortKey = require('vue-shortkey');
+
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(hooks);
 Vue.use(VueCompositionApi);
+Vue.use(vueShortKey);
 
 new Vue({
   router,

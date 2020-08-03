@@ -2,7 +2,6 @@ const { authenticate } = require('@feathersjs/authentication').hooks;
 const { setField } = require('feathers-authentication-hooks');
 
 const populateOwner = require('../../hooks/populate-owner');
-// const limitToUser = require('../../hooks/limit-to-user');
 
 const limitToUser = setField({
   from: 'params.user.github_id',
@@ -14,9 +13,17 @@ module.exports = {
     all: [ authenticate('jwt') ],
     find: [limitToUser],
     get: [limitToUser],
-    create: [populateOwner(), limitToUser],
-    update: [ populateOwner(), limitToUser ],
-    patch: [limitToUser],
+    create: [limitToUser, populateOwner()],
+    update: [limitToUser, populateOwner()],
+    patch: [limitToUser, (context) => {
+      if (context.data.pushDate) {
+        const { pushDate } = context.data;
+        context.data.pushDate = new Date(pushDate);
+        return context;
+      } else {
+        return context;
+      }
+    }],
     remove: [limitToUser]
   },
   

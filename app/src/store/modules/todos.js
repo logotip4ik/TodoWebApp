@@ -1,21 +1,27 @@
+import Push from 'push.js';
 import feathers from '../../feathers';
 
 export default {
   namespaced: true,
   state: {
-    todos: null,
+    todos: [],
+    // Index of currently editing todo
+    currentlyEditing: {
+      title: 'No Todo selected',
+      completed: true,
+      pushDate: new Date(),
+    },
     loading: false,
+    dark: false,
   },
   actions: {
     async createTodo(_, todo) {
       await feathers.service('todo').create(todo);
     },
-    async updateTodo({ state }, { index }) {
+    async updateTodo(_, { todo }) {
       await feathers.service('todo')
         // eslint-disable-next-line
-        .patch(state.todos[index]._id, {
-          completed: !state.todos[index].completed,
-        })
+        .patch(todo._id, todo)
         .then((res) => {
           // eslint-disable-next-line
           console.info('Object was updated: ', JSON.stringify(res));
@@ -38,6 +44,9 @@ export default {
           console.error('Error ocurred: ', JSON.stringify(err));
         });
     },
+    async settingsTodo({ state }, { index }) {
+      state.currentlyEditing = state.todos[index];
+    },
     async listen({ state }) {
       state.loading = true;
       const todos = await feathers.service('todo').find({
@@ -55,7 +64,11 @@ export default {
         state.todos.forEach((todo, index) => {
         // eslint-disable-next-line
           if (todo._id === updatedTodo._id) {
+            state.todos[index].title = updatedTodo.title;
+            state.todos[index].badge = updatedTodo.badge;
+            state.todos[index].badgeText = updatedTodo.badgeText;
             state.todos[index].completed = updatedTodo.completed;
+            state.todos[index].pushDate = updatedTodo.pushDate;
           }
         });
       });
@@ -71,6 +84,52 @@ export default {
         // eslint-disable-next-line
         state.todos = state.todos.filter((item) => removedTodo._id !== item._id);
       });
+    },
+    async notify({ state }, index) {
+      (function loop() {
+        let now = new Date();
+        const pushdate = state.todos[index] || null;
+        if (pushdate == null) return;
+        const date = new Date(pushdate.pushDate);
+        if (!state.todos[index].completed
+          && now.getDate() >= date.getDate()
+          && now.getHours() >= date.getHours()
+          && now.getMinutes() >= date.getMinutes()
+          && Push.Permission.has()) {
+          Push.create(state.todos[index].title, {
+            body: 'Click to complete this todo.',
+            // eslint-disable-next-line
+            onClick: async () => {
+              await feathers.service('todo')
+              // eslint-disable-next-line
+              .patch(state.todos[index]._id, {
+                  completed: true,
+                })
+                .then((res) => {
+                // eslint-disable-next-line
+                console.info('Object was updated: ', JSON.stringify(res));
+                })
+                .catch((err) => {
+                // eslint-disable-next-line
+                console.error(JSON.stringify(err));
+                });
+            },
+          });
+        }
+        now = new Date(); // allow for time passing
+        const delay = 60000 - (now % 60000); // exact ms to next minute interval
+        setTimeout(loop, delay);
+      }());
+    },
+    async toggleDarkMode({ state }) {
+      state.dark = !state.dark;
+    },
+    async checkDarkMode({ state }) {
+      try {
+        const darkMode = JSON.parse(localStorage.dark);
+        if (darkMode) state.dark = !state.dark;
+        // eslint-disable-next-line
+      } catch (error) {}
     },
   },
 };
