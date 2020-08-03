@@ -25,6 +25,7 @@
           v-model="date"
           :class="dark ? 'dark-input' : ''"
           :min="minDate"
+          :menu-class="dark ? 'dark-menu' : ''"
           today-button
           close-button
           reset-button>
@@ -40,6 +41,7 @@
           <b-form-timepicker
             id="timepicker"
             :class="dark ? 'dark-input' : ''"
+            :menu-class="dark ? 'dark-timepicker' : ''"
             v-model="time"
             :hour12="false"
             now-button
@@ -204,5 +206,42 @@ export default {
 }
 .dark-checkbox{
   color: #FCF7F8 !important;
+}
+
+.dark-timepicker{
+  background-color: #222;
+}
+.dark-timepicker > .b-time > .d-flex > .b-form-spinbutton{
+  background-color: #222;
+}
+.dark-timepicker > .b-time > .d-flex > .b-form-spinbutton > .btn{
+  color: #fafafa;
+}
+
+.dark-menu{
+  background-color: #222;
+}
+.dark-menu > .b-calendar > .b-calendar-inner > .b-calendar-header output {
+  background-color: #222;
+}
+.dark-menu > .b-calendar > .b-calendar-inner > .b-calendar-grid {
+  background-color: #222;
+}
+.dark-menu > .b-calendar > .b-calendar-inner > .b-calendar-grid > footer > .small {
+  background-color: #222;
+  color: #c5c5c5;
+}
+.dark-menu > .b-calendar > .b-calendar-inner > .b-calendar-grid >
+  .b-calendar-grid-body > .row .p-0 > .btn {
+  color: #b8b8b8!important;
+}
+.dark-menu > .b-calendar > .b-calendar-inner > .b-calendar-grid >
+  .b-calendar-grid-body > .row .bg-light {
+  background-color: #444!important;
+  color: #fafafa!important;
+}
+.dark-menu > .b-calendar > .b-calendar-inner > .b-calendar-grid >
+  .b-calendar-grid-body > .row .bg-light > .btn{
+  color: #fafafa!important;
 }
 </style>
