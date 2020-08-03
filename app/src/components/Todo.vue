@@ -6,7 +6,7 @@
         <div class="d-flex full-width col">
           <div @click="updateTodo" class="d-flex flex-9 click"
             :style="dark ? 'color: #FCF7F8' : ''"
-            :class="dark ? 'white-line' : ''">
+            :class="dark && todo.completed ? 'white-line' : ''">
             {{todo.title}}
           </div>
           <div class="d-flex flex-1 justify-content-end">

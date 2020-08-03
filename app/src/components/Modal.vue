@@ -18,7 +18,8 @@
         <b-form-group
           label="New Title"
           label-for="titleInput"
-          label-class="h5">
+          label-class="h5"
+          description="Max length is 100">
           <b-form-input
             id="titleInput"
             type="text"
@@ -58,7 +59,8 @@
         <b-form-group
           label="New Badge Text"
           label-for="badge-text"
-          label-class="h5">
+          label-class="h5"
+          description="Max length is 100">
           <b-form-input
             v-model.trim="badgeText"
             id="badge-text"
@@ -139,9 +141,11 @@ export default {
       const todo = {
         // eslint-disable-next-line
         _id: this._id,
-        title: this.newTitle !== '' ? this.newTitle : this.title,
+        title: this.newTitle.substring(0, 100) !== '' ? this.newTitle.substring(0, 100) : this.title,
         badge: this.newBadge !== this.badge ? this.newBadge : this.badge,
-        badgeText: this.newBadgeText !== this.badgeText ? this.newBadgeText : this.badgeText,
+        badgeText: this
+          .newBadgeText.substring(0, 100) !== this.badgeText ? this
+            .newBadgeText.substring(0, 100) : this.badgeText,
         pushDate: `${
           (this.newDate !== this.pushdate && this.newDate) ? this.newDate : this.pushdate} ${
           (this.newTime !== this.pushtime && this.newTime) ? this.newTime : this.pushtime}`,

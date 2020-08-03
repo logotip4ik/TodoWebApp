@@ -4,7 +4,8 @@
       <b-form-group
         label="Type new Todo"
         label-for="newTodo"
-        :label-class="dark ? 'h5 dark-label' : 'h5'">
+        :label-class="dark ? 'h5 dark-label' : 'h5'"
+        description="Max length is 100">
         <b-form-input
           id="newTodo"
           v-model.trim="todo"
@@ -90,7 +91,7 @@
           label="Select text for badges"
           label-for="badge-text"
           :label-class="dark ? 'dark-label' : ''"
-          description="You can leave it empty">
+          description="You can leave it empty and Max len is 100">
           <b-form-input
             id="badge-text"
             v-model.trim="userBadge"
@@ -143,23 +144,23 @@ export default {
     const addNewTodo = () => {
       if (date.value !== '' && time.value !== '') {
         createTodo({
-          title: todo.value.trim(),
+          title: todo.value.substring(0, 100),
           badge: badge.value,
-          badgeText: userBadge.value !== '' ? userBadge.value : '',
+          badgeText: userBadge.value.substring(0, 100) !== '' ? userBadge.value.substring(0, 100) : '',
           pushDate: `${date.value} ${time.value}`,
         });
       } else if (date.value) {
         createTodo({
-          title: todo.value,
+          title: todo.value.substring(0, 100),
           badge: badge.value,
-          badgeText: userBadge.value !== '' ? userBadge.value : '',
+          badgeText: userBadge.value.substring(0, 100) !== '' ? userBadge.value.substring(0, 100) : '',
           pushDate: new Date(date.value),
         });
       } else {
         createTodo({
-          title: todo.value,
+          title: todo.value.substring(0, 100),
           badge: badge.value,
-          badgeText: userBadge.value !== '' ? userBadge.value : '',
+          badgeText: userBadge.value.substring(0, 100) !== '' ? userBadge.value.substring(0, 100) : '',
           pushDate: new Date(new Date().getTime() + 40 * 60000),
         });
       }
