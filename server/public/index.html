@@ -71,9 +71,8 @@
     <script>
       const params = new URLSearchParams(window.location.hash.slice(1));
       const token = params.get('access_token');
-      console.log(token);
       if (window.opener && token){
-        window.opener.postMessage({ token }, 'http://localhost:8080')
+        window.opener.postMessage({ token }, 'https://todo-web-app.vercel.app')
       } else {
         info.textContent= 'Go home.'
       }
